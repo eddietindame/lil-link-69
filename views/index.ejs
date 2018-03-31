@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title><%- title %></title>
+    <link rel="stylesheet" href="/styles.css">
+</head>
+<body>
+    <div id="root">
+        <div class="container">
+            <div class="row">
+                <div class="col-12">
+                    <h1><%- title %></h1>
+                    <p>A simple Url shortener powered by the <a href="http://mern.io" target="_blank" rel="external"><em>MERN</em></a> stack</p>
+                    <form id="input" class="input">
+                        <input type="text" placeholder="http://myreallylonglink/thisnextpart?andmore" id="input__field" class="input__field">
+                        <input type="submit" value="shorten" class="input__submit">
+                    </form>
+                    <br>
+                    <footer>Built by <a href="http://eddietindame.github.io" target="_blank" rel="external">Eddie Tindame</a></footer>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script src="/bundle.js"></script>
+</body>
+</html>

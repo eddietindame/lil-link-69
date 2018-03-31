@@ -1,0 +1,31 @@
+@import "~bootstrap/scss/bootstrap";
+
+$rootFontSize: 16px;
+
+html {
+    font-size: $rootFontSize;
+}
+
+body {
+    margin: 1rem auto;
+}
+
+.input {
+    width: 100%;
+    display: flex;
+
+    &__field {
+        flex: 3;
+        padding: 0.5em;
+        border-radius: 0.5em 0 0 0.5em;
+        border: solid 1px #202020;
+        border-right: none;
+    }
+
+    &__submit {
+        flex: 1;
+        padding: 0.5em;
+        border-radius: 0 0.5em 0.5em 0;
+        border: solid 1px #202020;
+    }
+}
