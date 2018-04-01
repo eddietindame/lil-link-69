@@ -21,7 +21,7 @@ app.use(express.static('public'))
 app.get('/', (req, res) => {
     res.render('index', {
         title: 'lil-link',
-        host: config.host
+        host: req.get('host')
     })
 })
 
@@ -80,6 +80,6 @@ app.get('/:urlToForward', (req, res) => {
     })
 })
 
-app.listen(config.port, config.host, () => {
+app.listen(config.port, () => {
     console.info('Express listening on port', config.port)
 })
