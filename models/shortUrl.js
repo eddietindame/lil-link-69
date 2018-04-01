@@ -6,6 +6,6 @@ const urlSchema = new Schema({
     newUrl: { type: String, required: true },
 }, { timestamps: true })
 
-urlSchema.plugin(ttl, { interval: '1d' })
+urlSchema.plugin(ttl, { ttl: '24h' })
 
 export default mongoose.model('shortUrl', urlSchema)
