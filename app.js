@@ -1,12 +1,17 @@
 import express from 'express'
+import Limiter from 'express-rate-limiter'
+import MemoryStore from 'express-rate-limiter/lib/memoryStore'
 import mongoose from 'mongoose'
 import shortid from 'shortid'
 import config from './config'
 import UrlModel from './models/shortUrl'
 
 const app = express()
+const limiter = new Limiter({ db : new MemoryStore() });
 const urlRegex = /[-a-zA-Z0-9@:%_\+.~#?&//=]{2,256}\.[a-z]{2,4}\b(\/[-a-zA-Z0-9@:%_\+.~#?&//=]*)?/i
 const protocolRegex = /^(http|https):\/\//i
+
+process.setMaxListeners(0);
 
 mongoose.connect(config.db)
 
@@ -19,7 +24,7 @@ app.get('/', (req, res) => {
     })
 })
 
-app.get('/new/:urlToShorten(*)', (req, res) => {
+app.get('/new/:urlToShorten(*)', limiter.middleware(), (req, res) => {
     const { urlToShorten } = req.params
     const data = urlRegex.test(urlToShorten)
         ? new UrlModel({
@@ -49,6 +54,13 @@ app.get('/find', (req, res) => {
         })
 })
 
+app.get('/delete', (req, res) => {
+    UrlModel.remove()
+        .then(product => {
+            console.log(product)
+        })
+})
+
 app.get('/:urlToForward', (req, res) => {
     const { urlToForward } = req.params
 
@@ -63,7 +75,7 @@ app.get('/:urlToForward', (req, res) => {
                     ? data.originalUrl
                     : `http://${data.originalUrl}`
             )
-            : res.json({ error: 'That Url doesn\'t exist!' })
+            : res.json({ error: 'That Url doesn\'t exist! It may have expired.' })
     })
 })
 
