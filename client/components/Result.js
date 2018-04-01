@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 
 const Url = props => {
-    const url = window.location.href + props.value
+    const url = `${window.location.origin}/${props.value}`
     return <span>New Url: <a href={ url }>{ url }</a></span>
 }
 
