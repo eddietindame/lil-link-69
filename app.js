@@ -66,8 +66,6 @@ app.get('/delete/all', (req, res) => {
 app.get('/delete/:_id/:newUrl', (req, res) => {
     const { _id, newUrl } = req.params
 
-    console.log(_id, newUrl)
-
     UrlModel.findOneAndRemove({ _id, newUrl }, (err, doc) => {
         if (err) {
             res.json({ error: err })
@@ -79,22 +77,26 @@ app.get('/delete/:_id/:newUrl', (req, res) => {
     })
 })
 
-app.get('/:urlToForward', (req, res) => {
+app.get('/:urlToForward(*)', (req, res) => {
     const { urlToForward } = req.params
 
-    UrlModel.findOne({
-        newUrl: urlToForward
-    }, (err, data) => {
-        err && res.json(err)
-        data
-            ? res.redirect(
-                301,
-                regex.protocol.test(data.originalUrl)
-                    ? data.originalUrl
-                    : `http://${data.originalUrl}`
-            )
-            : res.json({ error: 'That Url doesn\'t exist! It may have expired.' })
-    })
+    if (regex.shortUrl.test(urlToForward)) {
+        UrlModel.findOne({
+            newUrl: urlToForward
+        }, (err, data) => {
+            err && res.json(err)
+            data
+                ? res.redirect(
+                    301,
+                    regex.protocol.test(data.originalUrl)
+                        ? data.originalUrl
+                        : `http://${data.originalUrl}`
+                )
+                : res.json({ error: 'That Url doesn\'t exist! It may have expired.' })
+        })
+    } else {
+        res.redirect(301, `${req.protocol}://${req.get('host')}`)
+    }
 })
 
 app.listen(config.port, () => {

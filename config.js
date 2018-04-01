@@ -10,7 +10,8 @@ export const logStars = message => {
 
 export const regex = {
   protocol: /^(http|https):\/\//i,
-  url: /[-a-zA-Z0-9@:%_\+.~#?&//=]{2,256}\.[a-z]{2,4}\b(\/[-a-zA-Z0-9@:%_\+.~#?&//=]*)?/i
+  url: /[-a-zA-Z0-9@:%_\+.~#?&//=]{2,256}\.[a-z]{2,4}\b(\/[-a-zA-Z0-9@:%_\+.~#?&//=]*)?/i,
+  shortUrl: /^[a-zA-Z0-9-]{9}$/
 }
 
 export default {
