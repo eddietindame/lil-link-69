@@ -5,8 +5,8 @@ import config from './config'
 import UrlModel from './models/shortUrl'
 
 const app = express()
-const regex = /[-a-zA-Z0-9@:%_\+.~#?&//=]{2,256}\.[a-z]{2,4}\b(\/[-a-zA-Z0-9@:%_\+.~#?&//=]*)?/i
-const securityRegex = /^(http|https):\/\//i
+const urlRegex = /[-a-zA-Z0-9@:%_\+.~#?&//=]{2,256}\.[a-z]{2,4}\b(\/[-a-zA-Z0-9@:%_\+.~#?&//=]*)?/i
+const protocolRegex = /^(http|https):\/\//i
 
 mongoose.connect(config.db)
 
@@ -21,7 +21,7 @@ app.get('/', (req, res) => {
 
 app.get('/new/:urlToShorten(*)', (req, res) => {
     const { urlToShorten } = req.params
-    const data = regex.test(urlToShorten)
+    const data = urlRegex.test(urlToShorten)
         ? new UrlModel({
             originalUrl: urlToShorten,
             newUrl: shortid.generate()
@@ -44,8 +44,8 @@ app.get('/new/:urlToShorten(*)', (req, res) => {
 
 app.get('/find', (req, res) => {
     UrlModel.find()
-        .then(doc => {
-            res.json(doc)
+        .then(data => {
+            res.json(data)
         })
 })
 
@@ -59,7 +59,7 @@ app.get('/:urlToForward', (req, res) => {
         data
             ? res.redirect(
                 301,
-                securityRegex.test(data.originalUrl)
+                protocolRegex.test(data.originalUrl)
                     ? data.originalUrl
                     : `http://${data.originalUrl}`
             )

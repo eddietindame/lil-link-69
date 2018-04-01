@@ -8,19 +8,23 @@
     <link rel="stylesheet" href="/styles.css">
 </head>
 <body>
-    <div id="root">
-        <div class="container">
-            <div class="row">
-                <div class="col-12">
-                    <h1><%- title %></h1>
-                    <p>A simple Url shortener powered by the <a href="http://mern.io" target="_blank" rel="external"><em>MERN</em></a> stack</p>
+    <div class="container">
+        <div class="row">
+            <div class="col-12">
+                <h1><%- title %></h1>
+                <p>A simple Url shortener powered by the <a href="http://mern.io" target="_blank" rel="external"><em>MERN</em></a> stack</p>
+                <div id="root">
                     <form id="input" class="input">
                         <input type="text" placeholder="http://myreallylonglink/thisnextpart?andmore" id="input__field" class="input__field">
                         <input type="submit" value="shorten" class="input__submit">
                     </form>
-                    <br>
-                    <footer>Built by <a href="http://eddietindame.github.io" target="_blank" rel="external">Eddie Tindame</a></footer>
+                    <br />
                 </div>
+                <p>This microservice can also be consumed as a RESTful API:</p>
+                <pre>$ curl http://link.lil/new/myUrlToBeShortened.net</pre>
+                <p>Example response:</p>
+                <pre>{"originalUrl":"myUrlToBeShortened.net","newUrl":"link.lil/BJ3suta5G","createdAt":"2018-03-31T22:16:04.367Z"}</pre>
+                <footer>Hand crafted by <a href="http://eddietindame.github.io" target="_blank" rel="external">Eddie Tindame</a> 💻</footer>
             </div>
         </div>
     </div>
