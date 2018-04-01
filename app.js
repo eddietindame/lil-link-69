@@ -17,7 +17,8 @@ app.use(express.static('public'))
 app.get('/', (req, res) => {
     res.render('index', {
         title: 'lil-link',
-        host: req.get('host')
+        host: req.get('host'),
+        protocol: req.protocol
     })
 })
 

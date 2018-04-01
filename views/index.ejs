@@ -18,9 +18,10 @@
                         <input type="text" placeholder="http://myreallylonglink/thispartisok?propsAreTrimmedTho" id="input__field" class="input__field">
                         <input type="submit" value="shorten" class="input__submit">
                     </form>
+                    <div class="result"></div>
                 </div>
                 <p>This microservice can also be consumed as a RESTful API:</p>
-                <pre>$ curl http://<%- host %>/new/myUrlToBeShortened.net</pre>
+                <pre>$ curl <%- protocol %>://<%- host %>/new/myUrlToBeShortened.net</pre>
                 <p>Example response:</p>
                 <pre>{"originalUrl":"myUrlToBeShortened.net","newUrl":"BJ3suta5G","createdAt":"2018-03-31T22:16:04.367Z"}</pre>
                 <p>Requests are limited to prevent DOS and all links expire after 24 hours.</p>

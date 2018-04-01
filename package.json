@@ -7,7 +7,8 @@
     "start": "nodemon --exec babel-node app.js --ignore public/",
     "dev": "webpack -wd",
     "refresh": "rm -rf node_modules && yarn",
-    "web": "babel-node app.js"
+    "web": "babel-node app.js",
+    "deploy": "git push heroku master && heroku ps:scale web=1;"
   },
   "keywords": [],
   "author": "",
