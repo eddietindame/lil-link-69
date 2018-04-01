@@ -18,7 +18,7 @@ export default class App extends Component {
         return (
             <div className="app">
                 <Form handleResult={ this.handleResult.bind(this) } />
-                { <Result value={ result } /> }
+                <Result result={ result } />
             </div>
         )
     }

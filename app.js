@@ -27,7 +27,7 @@ app.get('/new/:urlToShorten(*)', (req, res) => {
             newUrl: shortid.generate()
         })
         : null
-    
+
     data
         ? data.save((err, product) => {
             const { originalUrl, newUrl, createdAt } = product
@@ -39,7 +39,7 @@ app.get('/new/:urlToShorten(*)', (req, res) => {
                 createdAt
             })
         })
-        : res.json({ error: `${urlToShorten} is not a valid Url` })
+        : res.json({ error: `'${urlToShorten}' is not a valid Url` })
 })
 
 app.get('/find', (req, res) => {

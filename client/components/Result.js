@@ -2,15 +2,12 @@ import React, { Component } from 'react'
 
 export default class Result extends Component {
     render() {
-        const { value } = this.props
+        const { result } = this.props
         return (
             <div className="result">
-                <pre>
-                    { value
-                        ? JSON.stringify(value)
-                        : ''
-                    }
-                </pre>
+            {
+                result && <p><strong><em>{ result.error ? 'Error!' : 'Success!' }</em></strong> { result.error ? result.error : `New Url: ${result.newUrl}` }</p>
+            }
             </div>
         )
     }
