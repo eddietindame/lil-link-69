@@ -16,9 +16,7 @@ app.use(express.static('public'))
 
 app.get('/', (req, res) => {
     res.render('index', {
-        title: 'lil-link',
-        host: req.get('host'),
-        protocol: req.protocol
+        origin: `${req.protocol}://${req.get('host')}`
     })
 })
 
@@ -33,34 +31,52 @@ app.get('/new/:urlToShorten(*)', limiter.middleware(), (req, res) => {
 
     data
         ? data.save((err, product) => {
-            const { originalUrl, newUrl, createdAt } = product
-
             err && res.json(err)
+
+            const { originalUrl, newUrl, createdAt, _id } = product
+
             product && res.json({
                 originalUrl,
                 newUrl,
-                createdAt
+                createdAt,
+                deleteUrl: `delete/${_id}/${newUrl}`
             })
         })
-        : res.json({ error: `'${urlToShorten}' is not a valid Url` })
+        : res.json({ error: `'${urlToShorten}' is not a valid Url.` })
 })
 
-app.get('/find', (req, res) => {
+app.get('/all', (req, res) => {
     UrlModel.find()
         .then(data => { res.json(data) })
         .catch(error => { res.json(error) })
 })
 
-app.get('/delete', (req, res) => {
+app.get('/delete/all', (req, res) => {
     UrlModel.remove()
         .then(({ n, ok }) => {
             res.json(
                 ok
-                    ? { success: `Deleted ${n} entries` }
-                    : { error: 'Failed to delete data' }
+                    ? { success: `Deleted ${n} entries.` }
+                    : { error: 'Failed to delete data.' }
             )
         })
         .catch(error => res.json(error))
+})
+
+app.get('/delete/:_id/:newUrl', (req, res) => {
+    const { _id, newUrl } = req.params
+
+    console.log(_id, newUrl)
+
+    UrlModel.findOneAndRemove({ _id, newUrl }, (err, doc) => {
+        if (err) {
+            res.json({ error: err })
+        } else if (doc) {
+            res.json({ success: `Link ${doc.newUrl} deleted.`})
+        } else {
+            res.json({ error: 'Failed.' })
+        }
+    })
 })
 
 app.get('/:urlToForward', (req, res) => {

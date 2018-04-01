@@ -4,14 +4,14 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title><%- title %></title>
+    <title>lil-link</title>
     <link rel="stylesheet" href="/styles.css">
 </head>
 <body>
     <div class="container">
         <div class="row">
             <div class="col-12">
-                <h1><%- title %></h1>
+                <h1>lil-link</h1>
                 <p>A simple Url shortener powered by the <a href="http://mern.io" target="_blank" rel="external"><em>MERN</em></a> stack</p>
                 <div id="root">
                     <form id="input" class="input">
@@ -20,10 +20,16 @@
                     </form>
                     <div class="result"></div>
                 </div>
+                <hr>
                 <p>This microservice can also be consumed as a RESTful API:</p>
-                <pre>$ curl <%- protocol %>://<%- host %>/new/myUrlToBeShortened.net</pre>
+                <pre>$ curl <%- origin %>/new/myUrlToBeShortened.net</pre>
                 <p>Example response:</p>
-                <pre>{"originalUrl":"myUrlToBeShortened.net","newUrl":"BJ3suta5G","createdAt":"2018-03-31T22:16:04.367Z"}</pre>
+                <pre>{
+    "originalUrl": "myUrlToBeShortened.net",
+    "newUrl": "BJ3suta5G",
+    "createdAt": "2018-03-31T22:16:04.367Z",
+    "deleteUrl": "delete/5ac150dfd2269d141342fd4d/BJ3suta5G"
+}</pre>
                 <p>Requests are limited to prevent DOS and all links expire after 24 hours.</p>
                 <footer>Hand crafted by <a href="http://eddietindame.github.io" target="_blank" rel="external">Eddie Tindame</a> 💻</footer>
             </div>
