@@ -3,18 +3,14 @@ import Limiter from 'express-rate-limiter'
 import MemoryStore from 'express-rate-limiter/lib/memoryStore'
 import mongoose from 'mongoose'
 import shortid from 'shortid'
-import config from './config'
+import config, { regex } from './config'
 import UrlModel from './models/shortUrl'
 
 const app = express()
-const limiter = new Limiter({ db : new MemoryStore() });
-const urlRegex = /[-a-zA-Z0-9@:%_\+.~#?&//=]{2,256}\.[a-z]{2,4}\b(\/[-a-zA-Z0-9@:%_\+.~#?&//=]*)?/i
-const protocolRegex = /^(http|https):\/\//i
+const limiter = new Limiter({ db : new MemoryStore() })
 
-process.setMaxListeners(0);
-
+process.setMaxListeners(0)
 mongoose.connect(config.db)
-
 app.set('view engine', 'ejs')
 app.use(express.static('public'))
 
@@ -27,7 +23,7 @@ app.get('/', (req, res) => {
 
 app.get('/new/:urlToShorten(*)', limiter.middleware(), (req, res) => {
     const { urlToShorten } = req.params
-    const data = urlRegex.test(urlToShorten)
+    const data = regex.url.test(urlToShorten)
         ? new UrlModel({
             originalUrl: urlToShorten,
             newUrl: shortid.generate()
@@ -50,16 +46,20 @@ app.get('/new/:urlToShorten(*)', limiter.middleware(), (req, res) => {
 
 app.get('/find', (req, res) => {
     UrlModel.find()
-        .then(data => {
-            res.json(data)
-        })
+        .then(data => { res.json(data) })
+        .catch(error => { res.json(error) })
 })
 
 app.get('/delete', (req, res) => {
     UrlModel.remove()
-        .then(product => {
-            console.log(product)
+        .then(({ n, ok }) => {
+            res.json(
+                ok
+                    ? { success: `Deleted ${n} entries` }
+                    : { error: 'Failed to delete data' }
+            )
         })
+        .catch(error => res.json(error))
 })
 
 app.get('/:urlToForward', (req, res) => {
@@ -72,7 +72,7 @@ app.get('/:urlToForward', (req, res) => {
         data
             ? res.redirect(
                 301,
-                protocolRegex.test(data.originalUrl)
+                regex.protocol.test(data.originalUrl)
                     ? data.originalUrl
                     : `http://${data.originalUrl}`
             )

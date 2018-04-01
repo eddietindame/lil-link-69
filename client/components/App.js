@@ -7,9 +7,11 @@ export default class App extends Component {
         result: null
     }
 
-    handleResult(result) {
+    handleResult(result, error) {
         this.setState({
-            result
+            result: error
+                ? { error: result }
+                : result
         })
     }
 

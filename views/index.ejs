@@ -15,10 +15,9 @@
                 <p>A simple Url shortener powered by the <a href="http://mern.io" target="_blank" rel="external"><em>MERN</em></a> stack</p>
                 <div id="root">
                     <form id="input" class="input">
-                        <input type="text" placeholder="http://myreallylonglink/thisnextpart?andmore" id="input__field" class="input__field">
+                        <input type="text" placeholder="http://myreallylonglink/thispartisok?propsAreTrimmedTho" id="input__field" class="input__field">
                         <input type="submit" value="shorten" class="input__submit">
                     </form>
-                    <br />
                 </div>
                 <p>This microservice can also be consumed as a RESTful API:</p>
                 <pre>$ curl http://<%- host %>/new/myUrlToBeShortened.net</pre>

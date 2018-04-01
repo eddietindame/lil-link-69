@@ -8,11 +8,12 @@ export const logStars = message => {
   console.info('**********')
 }
 
+export const regex = {
+  protocol: /^(http|https):\/\//i,
+  url: /[-a-zA-Z0-9@:%_\+.~#?&//=]{2,256}\.[a-z]{2,4}\b(\/[-a-zA-Z0-9@:%_\+.~#?&//=]*)?/i
+}
+
 export default {
   port: env.PORT || 8080,
-  host: env.HOST || '0.0.0.0',
-  db: env.MONGODB_URI || 'mongodb://localhost/shortUrls',
-  get serverUrl() {
-    return `http://${this.host}:${this.port}`
-  }
+  db: env.MONGODB_URI || 'mongodb://localhost/shortUrls'
 }
