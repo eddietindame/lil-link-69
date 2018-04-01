@@ -5,7 +5,7 @@ const Url = props => {
     const url = `${window.location.origin}/${newUrl}`
     const deleteit = `${window.location.origin}/${deleteUrl}`
 
-    return <span>New Url: <a href={ url }>{ url }</a><br />Delete this Url using: <a href={ deleteit }>{ deleteit }</a> (your browser may cache the link).</span>
+    return <span>New Url: <a href={ url } target="_blank" rel="external">{ url }</a><br />Delete this Url using: <a href={ deleteit } target="_blank" rel="external">{ deleteit }</a> (your browser may still cache the link).</span>
 }
 
 export default class Result extends Component {
