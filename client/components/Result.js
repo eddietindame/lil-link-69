@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 
 const Url = props => {
-    const url = `http://localhost:8080/${props.value}`
+    const url = window.location.href + props.value
     return <span>New Url: <a href={ url }>{ url }</a></span>
 }
 
