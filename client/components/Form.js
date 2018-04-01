@@ -17,8 +17,6 @@ export default class Form extends Component {
     }
 
     handleSubmit(event) {
-        console.log('Url:', this.state.value)
-
         axios.get(`/new/${this.state.value}`)
             .then(res => { this.props.handleResult(res.data) })
             .catch(error => { console.log(error) })
