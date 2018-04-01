@@ -6,7 +6,8 @@
   "scripts": {
     "start": "nodemon --exec babel-node app.js --ignore public/",
     "dev": "webpack -wd",
-    "refresh": "rm -rf node_modules && yarn"
+    "refresh": "rm -rf node_modules && yarn",
+    "web": "babel-node app.js"
   },
   "keywords": [],
   "author": "",
