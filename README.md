@@ -20,4 +20,6 @@ Example response:
 Requests are limited to prevent DOS and all links expire after 24 hours.
 
 ## **to-do**
-- No-js form handing
+- Stop using babel-node in production
+- Fix dynamix protocol
+- Tidy up code

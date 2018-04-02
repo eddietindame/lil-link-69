@@ -14,25 +14,14 @@ mongoose.connect(config.db)
 app.set('view engine', 'ejs')
 app.use(express.static('public'))
 
-app.get('/', (req, res) => {
-    res.render('index', {
-        origin: `${req.protocol}://${req.get('host')}`
-    })
-})
-
-app.get(`/${encodeURI('🔮')}`, (req, res) => {
-    res.json({ h4x: '🔮' })
-})
-
-app.get('/new/:urlToShorten(*)', limiter.middleware(), (req, res) => {
-    const { urlToShorten } = req.params
+const submitUrl = (url, res) => {
     let data = null
 
-    if (regex.url.test(urlToShorten)) {
+    if (regex.url.test(url)) {
         const newUrl = shortid.generate()
 
         data = new UrlModel({
-            originalUrl: urlToShorten,
+            originalUrl: url,
             newUrl,
             emojiUrl: emojiMap.mapString(newUrl)
         })
@@ -52,7 +41,29 @@ app.get('/new/:urlToShorten(*)', limiter.middleware(), (req, res) => {
                 deleteUrl: `delete/${_id}/${newUrl}`
             })
         })
-        : res.json({ error: `'${urlToShorten}' is not a valid Url.` })
+        : res.json({ error: `'${url}' is not a valid Url.` })
+}
+
+app.get('/', (req, res) => {
+    const { url } = req.query
+
+    if (url) {
+        submitUrl(url, res)
+    } else {
+        res.render('index', {
+            origin: `${req.protocol}://${req.get('host')}`
+        })
+    }
+})
+
+app.get(`/${encodeURI('🔮')}`, (req, res) => {
+    res.json({ h4x: '🔮' })
+})
+
+app.get('/new/:urlToShorten(*)', limiter.middleware(), (req, res) => {
+    const { urlToShorten } = req.params
+
+    submitUrl(urlToShorten, res)
 })
 
 app.get('/all', (req, res) => {

@@ -62,6 +62,8 @@ export default class Form extends Component {
                     placeholder="http://myreallylonglink/thispartisok?propsAreTrimmedTho"
                     id="input__field"
                     className="input__field"
+                    name="url"
+                    title="Url to be shortened"
                 />
                 <input
                     type="submit"
