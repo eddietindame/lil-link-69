@@ -3,6 +3,7 @@ import Limiter from 'express-rate-limiter'
 import MemoryStore from 'express-rate-limiter/lib/memoryStore'
 import mongoose from 'mongoose'
 import shortid from 'shortid'
+import emojiUnicode from 'emoji-unicode'
 import config, { regex } from './config'
 import UrlModel from './models/shortUrl'
 
@@ -18,6 +19,10 @@ app.get('/', (req, res) => {
     res.render('index', {
         origin: `${req.protocol}://${req.get('host')}`
     })
+})
+
+app.get(`/${encodeURI('🔮')}`, (req, res) => {
+    res.json({ h4x: '🔮' })
 })
 
 app.get('/new/:urlToShorten(*)', limiter.middleware(), (req, res) => {
@@ -94,6 +99,8 @@ app.get('/:urlToForward(*)', (req, res) => {
                 )
                 : res.json({ error: 'That Url doesn\'t exist! It may have expired.' })
         })
+    } else if (regex.emoji.test(urlToForward)) {
+        res.json({ emojiUrl: urlToForward })
     } else {
         res.redirect(301, `${req.protocol}://${req.get('host')}`)
     }
