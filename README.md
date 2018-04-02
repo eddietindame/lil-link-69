@@ -17,7 +17,7 @@ Example response:
     "deleteUrl": "delete/5ac150dfd2269d141342fd4d/BJ3suta5G"
 }
 ```
-Requests are limited to prevent DOS and all links expire after 24 hours.
+Requests are limited per IP and all links expire after 24 hours.
 
 ## **to-do**
 - Stop using babel-node in production
