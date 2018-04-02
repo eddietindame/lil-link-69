@@ -3,8 +3,7 @@ import Limiter from 'express-rate-limiter'
 import MemoryStore from 'express-rate-limiter/lib/memoryStore'
 import mongoose from 'mongoose'
 import shortid from 'shortid'
-import emojiUnicode from 'emoji-unicode'
-import config, { regex } from './config'
+import config, { emojiMap, regex } from './config'
 import UrlModel from './models/shortUrl'
 
 const app = express()
@@ -27,22 +26,28 @@ app.get(`/${encodeURI('🔮')}`, (req, res) => {
 
 app.get('/new/:urlToShorten(*)', limiter.middleware(), (req, res) => {
     const { urlToShorten } = req.params
-    const data = regex.url.test(urlToShorten)
-        ? new UrlModel({
+    let data = null
+
+    if (regex.url.test(urlToShorten)) {
+        const newUrl = shortid.generate()
+
+        data = new UrlModel({
             originalUrl: urlToShorten,
-            newUrl: shortid.generate()
+            newUrl,
+            emojiUrl: emojiMap.mapString(newUrl)
         })
-        : null
+    }
 
     data
         ? data.save((err, product) => {
             err && res.json(err)
 
-            const { originalUrl, newUrl, createdAt, _id } = product
+            const { originalUrl, newUrl, emojiUrl, createdAt, _id } = product
 
             product && res.json({
                 originalUrl,
                 newUrl,
+                emojiUrl,
                 createdAt,
                 deleteUrl: `delete/${_id}/${newUrl}`
             })
@@ -100,7 +105,19 @@ app.get('/:urlToForward(*)', (req, res) => {
                 : res.json({ error: 'That Url doesn\'t exist! It may have expired.' })
         })
     } else if (regex.emoji.test(urlToForward)) {
-        res.json({ emojiUrl: urlToForward })
+        UrlModel.findOne({
+            emojiUrl: urlToForward
+        }, (err, data) => {
+            err && res.json(err)
+            data
+                ? res.redirect(
+                    301,
+                    regex.protocol.test(data.originalUrl)
+                        ? data.originalUrl
+                        : `http://${data.originalUrl}`
+                )
+                : res.json({ error: 'That Url doesn\'t exist! It may have expired.' })
+        })
     } else {
         res.redirect(301, `${req.protocol}://${req.get('host')}`)
     }
