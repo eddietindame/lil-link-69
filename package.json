@@ -4,12 +4,12 @@
   "description": "",
   "main": "app.js",
   "scripts": {
-    "start": "nodemon --exec babel-node app.js --ignore public/",
-    "dev": "webpack -wd",
+    "start:dev": "nodemon --exec babel-node server/index.js --ignore public/",
+    "start:prod": "node app.js",
+    "build:client": "webpack -wd --config webpack.config.client.js",
+    "build:server": "webpack --config webpack.config.server.js",
     "refresh": "rm -rf node_modules && yarn",
-    "web": "node server.js",
-    "deploy": "git push heroku master && heroku ps:scale web=1;",
-    "buildprod": "babel app.js -o server.js"
+    "deploy": "git push heroku master && heroku ps:scale web=1;"
   },
   "keywords": [],
   "author": "",

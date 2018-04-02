@@ -20,6 +20,5 @@ Example response:
 Requests are limited per IP and all links expire after 24 hours.
 
 ## **to-do**
-- Stop using babel-node in production
 - Fix dynamix protocol
 - Tidy up code
