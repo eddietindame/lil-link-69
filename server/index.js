@@ -100,35 +100,26 @@ app.get('/delete/:_id/:newUrl', (req, res) => {
 
 app.get('/:urlToForward(*)', (req, res) => {
     const { urlToForward } = req.params
+    const lookUpAndRedirect = whichUrl => {
+        UrlModel.findOne({
+            [whichUrl]: urlToForward
+        }, (err, data) => {
+            err && res.json(err)
+            data
+                ? res.redirect(
+                    301,
+                    regex.protocol.test(data.originalUrl)
+                        ? data.originalUrl
+                        : `http://${data.originalUrl}`
+                )
+                : res.json({ error: 'That Url doesn\'t exist! It may have expired.' })
+        })
+    }
 
     if (regex.shortUrl.test(urlToForward)) {
-        UrlModel.findOne({
-            newUrl: urlToForward
-        }, (err, data) => {
-            err && res.json(err)
-            data
-                ? res.redirect(
-                    301,
-                    regex.protocol.test(data.originalUrl)
-                        ? data.originalUrl
-                        : `http://${data.originalUrl}`
-                )
-                : res.json({ error: 'That Url doesn\'t exist! It may have expired.' })
-        })
+        lookUpAndRedirect('newUrl')
     } else if (regex.emoji.test(urlToForward)) {
-        UrlModel.findOne({
-            emojiUrl: urlToForward
-        }, (err, data) => {
-            err && res.json(err)
-            data
-                ? res.redirect(
-                    301,
-                    regex.protocol.test(data.originalUrl)
-                        ? data.originalUrl
-                        : `http://${data.originalUrl}`
-                )
-                : res.json({ error: 'That Url doesn\'t exist! It may have expired.' })
-        })
+        lookUpAndRedirect('emojiUrl')
     } else {
         res.redirect(301, `${req.protocol}://${req.get('host')}`)
     }

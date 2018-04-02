@@ -59,7 +59,7 @@ export default class Form extends Component {
                     type="text"
                     value={ this.state.value }
                     onChange={ this.handleChange }
-                    placeholder="http://myreallylonglink/thispartisok?propsAreTrimmedTho"
+                    placeholder="http://myreallylonglink/thispartisok?paramsAreTrimmedTho"
                     id="input__field"
                     className="input__field"
                     name="url"
