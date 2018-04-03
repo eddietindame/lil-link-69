@@ -3,7 +3,7 @@ A simple Url shortener powered by the ***[MERN](http://mern.oi/)*** stack. (lil-
 
 Built by **[Eddie Tindame](http://eddietindame.github.io/)** 💻 (from scratch, no boilerplate).
 
-Try it out: **[lil-link-69](https://lil-link-69.herokuapp.com/)**
+Try it out: **https://lil-link-69.herokuapp.com/**
 
 ## **api**
 This microservice can also be consumed as a RESTful API:
