@@ -51,7 +51,7 @@ app.get('/', (req, res) => {
         submitUrl(url, res)
     } else {
         res.render('index', {
-            origin: `${req.protocol}://${req.get('host')}`
+            origin: `${config.protocol}://${req.get('host')}`
         })
     }
 })

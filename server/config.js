@@ -87,5 +87,6 @@ export const emojiMap = {
 
 export default {
   port: env.PORT || 8080,
+  protocol: nodeEnv === 'development' ? 'http' : 'https',
   db: env.MONGODB_URI || 'mongodb://localhost/shortUrls'
 }

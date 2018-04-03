@@ -21,7 +21,3 @@ Example response:
 }
 ```
 Requests are limited per IP and all links expire after 24 hours.
-
-## **to-do**
-- Fix dynamix protocol
-- Tidy up code
